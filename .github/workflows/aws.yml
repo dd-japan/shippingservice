@@ -31,7 +31,9 @@ on:
     branches: [ "main" ]
 
 env:
-  AWS_REGION: us-east-1                   # set this to your preferred AWS region, e.g. us-west-1
+#AWS_REGIONは、us-east-1にしないと、Errorが発生する
+#"getaddrinfo ENOTFOUND api.ecr-public.ap-northeast-1.amazonaws.com"
+  AWS_REGION: us-east-1                        # set this to your preferred AWS region, e.g. us-west-1
   ECR_REPOSITORY: b1o7r7e0/shippingservice     # set this to your Amazon ECR repository name
 
 # Reference https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services#adding-permissions-settings
@@ -43,27 +45,35 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    #environment: production                  # avoid Error "Not authorized to perform sts:AssumeRoleWithWebIdentity"
+    #environmentはコメントアウトしないとErrorが発生する
+    #"Not authorized to perform sts:AssumeRoleWithWebIdentity"
+    #environment: production
 
     steps:
     - name: Checkout
       uses: actions/checkout@v3
 
-      # Reference https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services#requesting-the-access-token
+      #参考サイト
+      #https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services#requesting-the-access-token
     - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v4 # avoid Warning The `set-output` command is deprecated and will be disabled soon. Please upgrade to using Environment Files.
+      uses: aws-actions/configure-aws-credentials@v4
+      #v1だとWarningが発生する
+      #"The `set-output` command is deprecated and will be disabled soon. Please upgrade to using Environment Files."
       with:
         # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         role-to-assume: arn:aws:iam::601427279990:role/takufuji-shippingservice-githubactions
         # role-session-name: takufujirolesession
+        #role-session-nameはあってもなくてもどちらでもよい
         aws-region: ${{ env.AWS_REGION }}
 
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
       with:
-          registry-type: public                  # avoid Error "GitHubActions is not authorized to perform"
+          registry-type: public
+          #registry-type: publicを設定しないと、Errorが発生する
+          #"GitHubActions is not authorized to perform"
 
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
