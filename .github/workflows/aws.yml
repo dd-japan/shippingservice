@@ -43,7 +43,7 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    environment: production
+    #environment: production                  # avoid Error "Not authorized to perform sts:AssumeRoleWithWebIdentity"
 
     steps:
     - name: Checkout
