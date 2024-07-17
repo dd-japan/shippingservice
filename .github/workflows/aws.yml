@@ -31,8 +31,8 @@ on:
     branches: [ "main" ]
 
 env:
-#AWS_REGIONは、us-east-1にしないと、Errorが発生する
-#"getaddrinfo ENOTFOUND api.ecr-public.ap-northeast-1.amazonaws.com"
+# AWS_REGIONは、us-east-1にしないと、Errorが発生する
+# "getaddrinfo ENOTFOUND api.ecr-public.ap-northeast-1.amazonaws.com"
   AWS_REGION: us-east-1                        # set this to your preferred AWS region, e.g. us-west-1
   ECR_REPOSITORY: b1o7r7e0/shippingservice     # set this to your Amazon ECR repository name
 
@@ -46,20 +46,20 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     #
-    #environmentはコメントアウトしないとErrorが発生する
-    #"Not authorized to perform sts:AssumeRoleWithWebIdentity"
-    #environment: production
+    # environmentはコメントアウトしないとErrorが発生する
+    # "Not authorized to perform sts:AssumeRoleWithWebIdentity"
+    # environment: production
 
     steps:
     - name: Checkout
       uses: actions/checkout@v3
 
-      #参考サイト
-      #https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services#requesting-the-access-token
+      # 参考サイト
+      # https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services#requesting-the-access-token
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
-      #v1だとWarningが発生する
-      #"The `set-output` command is deprecated and will be disabled soon. Please upgrade to using Environment Files."
+      # v1だとWarningが発生する
+      # "The `set-output` command is deprecated and will be disabled soon. Please upgrade to using Environment Files."
       with:
         # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -88,3 +88,10 @@ jobs:
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+    # manifestRepoで管理しているmanifestファイルのupdate
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        fetch-depth: 0
