@@ -103,3 +103,13 @@ jobs:
       run: |
         sed -i "s|image:\ \.*|image:\ public.ecr.aws/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}|g" shippingservice-manifest/manifest/shippingservice.yaml
         cat shippingservice-manifest/manifest/shippingservice.yaml
+
+    - name: Commit and push changes
+      working-directory: shippingservice-manifest
+      run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add manifest/shippingservice.yaml
+          git status
+          git commit -m "Update image to public.ecr.aws/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}"
+          git push origin main
