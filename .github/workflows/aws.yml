@@ -95,7 +95,11 @@ jobs:
         repository: dd-japan/shippingservice-manifest
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         path: shippingservice-manifest
+    
     - name: List files for debugging
       run: ls -R shippingservice-manifest
+    
     - name: Update Deployment manifests
-      run: cat shippingservice-manifest/manifest/shippingservice.yaml
+      run: |
+        sed -i "s/image:\ \.*/image:\ public.ecr.aws/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}/g" shippingservice-manifest/manifest/shippingservice.yaml
+        cat shippingservice-manifest/manifest/shippingservice.yaml
