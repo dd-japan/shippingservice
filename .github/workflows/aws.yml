@@ -97,3 +97,5 @@ jobs:
         path: shippingservice-manifest
     - name: List files for debugging
       run: ls -R shippingservice-manifest
+    - name: Update Deployment manifests
+      run: cat shippingservice-manifest/manifest/shippingservice.yaml
