@@ -35,6 +35,7 @@ env:
 # "getaddrinfo ENOTFOUND api.ecr-public.ap-northeast-1.amazonaws.com"
   AWS_REGION: us-east-1                        # set this to your preferred AWS region, e.g. us-west-1
   ECR_REPOSITORY: b1o7r7e0/shippingservice     # set this to your Amazon ECR repository name
+  IMAGE_TAG: ${{ github.sha }}                 # set this to use the image tag
 
 # Reference https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services#adding-permissions-settings
 permissions:
@@ -79,7 +80,7 @@ jobs:
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        IMAGE_TAG: ${{ github.sha }}
+        # IMAGE_TAG: ${{ github.sha }}
       run: |
         # Build a docker container and
         # push it to ECR so that it can
