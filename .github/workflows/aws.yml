@@ -45,7 +45,6 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    #
     # environmentはコメントアウトしないとErrorが発生する
     # "Not authorized to perform sts:AssumeRoleWithWebIdentity"
     # environment: production
@@ -65,7 +64,7 @@ jobs:
         # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         role-to-assume: arn:aws:iam::601427279990:role/takufuji-shippingservice-githubactions
         # role-session-name: takufujirolesession
-        #role-session-nameはあってもなくてもどちらでもよい
+        # role-session-nameはあってもなくてもどちらでもよい
         aws-region: ${{ env.AWS_REGION }}
 
     - name: Login to Amazon ECR
@@ -73,8 +72,8 @@ jobs:
       uses: aws-actions/amazon-ecr-login@v1
       with:
           registry-type: public
-          #registry-type: publicを設定しないと、Errorが発生する
-          #"GitHubActions is not authorized to perform"
+          # registry-type: publicを設定しないと、Errorが発生する
+          # "GitHubActions is not authorized to perform"
 
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
@@ -94,4 +93,6 @@ jobs:
       uses: actions/checkout@v3
       with:
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        fetch-depth: 0
+        path: shippingservice-manifest
+    - name: List files for debugging
+      run: ls -R shippingservice-manifest
