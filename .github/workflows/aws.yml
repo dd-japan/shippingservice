@@ -102,7 +102,7 @@ jobs:
     
     - name: Update Deployment manifests
       run: |
-        sed -i 's|image: public.ecr.aws/${{ env.ECR_REPOSITORY }}:[^[:space:]]*|image: public.ecr.aws/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}|g'　shippingservice-manifest/manifest/shippingservice.yaml
+        sed -i 's|image: public.ecr.aws\/${{ env.ECR_REPOSITORY }}:[^[:space:]]*|image: public.ecr.aws\/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}|g'　shippingservice-manifest/manifest/shippingservice.yaml
         # sed -i "s|image:\ \.*|image:\ public.ecr.aws/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}|g" shippingservice-manifest/manifest/shippingservice.yaml
         cat shippingservice-manifest/manifest/shippingservice.yaml
 
