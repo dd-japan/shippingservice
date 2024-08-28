@@ -105,7 +105,7 @@ jobs:
         sed -i 's|image: public.ecr.aws/b1o7r7e0/shippingservice:[^[:space:]]*|image: public.ecr.aws/b1o7r7e0/shippingservice:${{ github.sha }}|g'　shippingservice-manifest/manifest/shippingservice.yaml
         # sed -i "s|image:\ \.*|image:\ public.ecr.aws/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}|g" shippingservice-manifest/manifest/shippingservice.yaml
         # sed -i 's|image: public.ecr.aws/b1o7r7e0/checkoutservice:[^[:space:]]*|image: public.ecr.aws/b1o7r7e0/checkoutservice:${{ github.sha }}|g' checkoutservice-manifest/manifest/checkoutservice.yaml
-        #　cat shippingservice-manifest/manifest/shippingservice.yaml
+        # cat shippingservice-manifest/manifest/shippingservice.yaml
 
     - name: Commit and push changes
       working-directory: shippingservice-manifest
