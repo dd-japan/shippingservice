@@ -102,7 +102,7 @@ jobs:
     
     - name: Update Deployment manifests
       run: |
-          sed -i "s|image:\ public.ecr.aws/b1o7r7e0/shippingservice:[^[:space:]]*|image:\ public.ecr.aws/b1o7r7e0/shippingservice:${{ github.sha }}|g'　shippingservice-manifest/manifest/shippingservice.yaml
+          sed -i "s|image:\ public.ecr.aws/b1o7r7e0/shippingservice:[^[:space:]]*|image:\ public.ecr.aws/b1o7r7e0/shippingservice:${{ github.sha }}|g" shippingservice-manifest/manifest/shippingservice.yaml
           cat shippingservice-manifest/manifest/shippingservice.yaml
 
     - name: Commit and push changes
